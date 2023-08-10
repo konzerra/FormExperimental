@@ -1,0 +1,210 @@
+<!-- my-component.component.html -->
+<head>
+  <!-- Add the Bootstrap CDN link below -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<div class="container">
+
+
+  <div class="wrapper container pt-5">
+    <h2 class="mt-5">Save students</h2>
+    <div class = "col-lg-6 col-md-offset-1 mb-5">
+
+      <form class="needs-validation">
+
+        <!-- Foo Form -->
+        <div class="form-group">
+          <label class="control-label" for="doo"> doo </label>
+          <input type="text"
+                 id="doo"
+                 class="form-control"
+                 [formControl]="studentsForm.foo.doo"
+                 placeholder="enter doo"
+                 required autofocus="autofocus" />
+          <div *ngIf="checkFormControl(studentsForm.foo.doo)"
+               class="alert-danger">
+
+            <div *ngIf="studentsForm.foo.doo.errors?.['required']">
+              Enter doo
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label" for="aaa"> aaa </label>
+          <input type="text"
+                 id="aaa"
+                 class="form-control"
+                 [formControl]="studentsForm.foo.aaa"
+                 placeholder="enter aaa"
+                 required autofocus="autofocus" />
+          <div *ngIf="checkFormControl(studentsForm.foo.aaa)"
+               class="alert-danger">
+
+            <div *ngIf="studentsForm.foo.aaa.errors?.['required']">
+              Enter aaa
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-body">
+          <h3>Home</h3>
+          <div class="form-group">
+            <label class="control-label" for="home_id"> home id </label>
+            <input type="text"
+                   id="home_id"
+                   class="form-control"
+                   [formControl]="studentsForm.foo.home.id"
+                   placeholder="enter home id"
+                   required autofocus="autofocus" />
+            <div *ngIf="checkFormControl(studentsForm.foo.home.id)"
+                 class="alert-danger">
+
+              <div *ngIf="studentsForm.foo.home.id.errors?.['required']">
+                Enter home id
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Array of students -->
+        <div *ngFor="let studentIndex = index; let student of studentsForm.students">
+
+
+          <hr class="w-100">
+          <div class="row align-items-center">
+            <div class="col-md-10">
+              <h3>Student №{{studentIndex}}</h3>
+            </div>
+            <div class="col-md-2">
+              <button type="button" class="btn btn-danger btn-sm" (click)="onRemoveStudent(studentIndex)">remove</button>
+            </div>
+          </div>
+
+          <!-- Form for student id-->
+          <div class="form-group">
+            <label class="control-label" [for]="studentIndex+'_student_id'"> student id </label>
+            <input type="text"
+                   [id]="studentIndex+'_student_id'"
+                   class="form-control"
+                   [formControl]="student.id"
+                   placeholder="enter id"
+                   required autofocus="autofocus" />
+            <div *ngIf="checkFormControl(student.id)"
+                 class="alert-danger">
+
+              <div *ngIf="student.id.errors?.['required']">
+                Enter student id
+              </div>
+            </div>
+          </div>
+
+          <!-- Form for student name -->
+          <div class="form-group">
+            <label class="control-label" [for]="studentIndex+'_student_name'"> student name </label>
+            <input type="text"
+                   [id]="studentIndex+'_student_name'"
+                   class="form-control"
+                   [formControl]="student.name"
+                   placeholder="enter name"
+                   required autofocus="autofocus" />
+            <div *ngIf="checkFormControl(student.name)"
+                 class="alert-danger">
+
+              <div *ngIf="student.name.errors?.['required']">
+                Enter student name
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <button type="button" class="btn btn-primary btn-sm mt-3" (click)="toggleCollapse(student)">Edit predmet</button>
+          </div>
+          <!-- Array of points -->
+          <div *ngFor="let pointIndex = index; let point of student.point">
+            <!-- Collapsable input for student.point -->
+
+            <div class="collapse" [ngClass]="{'show': student.isCollapsed}">
+              <div class="card card-body">
+                <!-- Point card -->
+                <hr class="w-100">
+                <div class="row align-items-center">
+                  <div class="col-md-10">
+                    <h4>Point №{{pointIndex}}</h4>
+                  </div>
+                  <div class="col-md-2">
+                    <button type="button" class="btn btn-danger btn-sm" (click)="onRemovePoint(studentIndex, pointIndex)">remove</button>
+                  </div>
+                </div>
+                <!-- Form for point predmet -->
+                <div class="form-group">
+                  <label class="control-label" [for]="studentIndex+'_point_predmet'"> Predmet </label>
+                  <input type="text"
+                         [id]="studentIndex+'_student_predmet'"
+                         class="form-control"
+                         [formControl]="point.predmet"
+                         placeholder="enter predmet"
+                         required autofocus="autofocus" />
+                  <div *ngIf="checkFormControl(point.predmet)"
+                       class="alert-danger">
+
+                    <div *ngIf="point.predmet.errors?.['required']">
+                      Enter predmet
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" [for]="studentIndex+'_point_ball'"> ball </label>
+                  <input type="text"
+                         [id]="studentIndex+'_student_ball'"
+                         class="form-control"
+                         [formControl]="point.ball"
+                         placeholder="enter ball"
+                         required autofocus="autofocus" />
+                  <div *ngIf="checkFormControl(point.ball)"
+                       class="alert-danger">
+
+                    <div *ngIf="point.ball.errors?.['required']">
+                      Enter ball
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+          <!-- Add point button -->
+          <div class="collapse" [ngClass]="{'show': student.isCollapsed}">
+            <button type="button" class="btn btn-primary btn-sm mt-3" (click)="onPointAdd(studentIndex)">Add point</button>
+          </div>
+
+
+
+        </div>
+
+
+        <!-- Add student button -->
+        <div>
+          <button type="button" class="btn btn-primary mt-3" (click)="onAddStudent()">Add student</button>
+        </div>
+
+
+        <div class="form-group">
+          <div class="mt-4">
+            <button type="button" name="login-submit" id="login-submit"
+                    class="form-control btn btn-primary btn-sm w-25" (click)="onSubmit()" > Save </button>
+            <button type = "button" class= "btn btn-outline-primary btn-sm w-25 ms-3"
+                    (click)="onCancelClicked()">Cancel</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <br>
+  </div>
+</div>
+
+
+
+
